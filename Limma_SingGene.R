@@ -84,11 +84,15 @@ library(ggplot2)
 library(ggpubr) #pvalue
 data <- data.frame(gene=norm['NAT10',],group=grouplist )
 
+#https://www.javaroad.cn/questions/292881
+xlabs <- paste(levels(data$group),"\n(N=",table(data$group),")",sep="")
+
 #https://zhuanlan.zhihu.com/p/496799780
 #https://blog.51cto.com/u_15069485/3982986
 #https://www.jianshu.com/p/d8e002de9fc3
 
 ggboxplot(data=data,x="group",y="gene",color="group",add="jitter",legend="none",palette = "nejm")+
+  scale_x_discrete(labels=xlabs)+
   rotate_x_text(angle = 45)+
   geom_hline(yintercept=mean(norm['NAT10',]),linetype=2)+
   stat_compare_means(method="anova",label.y = max(norm['NAT10',]*1.2))+ #add global annova p_value
